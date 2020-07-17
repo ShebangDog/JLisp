@@ -1,4 +1,4 @@
-public class Nil {
+public class Nil extends List {
     public static Nil nil = new Nil();
 
     @Override
