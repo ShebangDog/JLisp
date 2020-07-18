@@ -1,3 +1,5 @@
+package type;
+
 public class Integer extends Number {
     public final int value;
 
