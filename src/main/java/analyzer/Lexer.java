@@ -1,6 +1,8 @@
 package analyzer;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Lexer {
     private final java.util.List<Character> keywordList = List.of('(', ')', '\'', '\"', '.');
@@ -34,7 +36,8 @@ public class Lexer {
             return tokenize(line.substring(1), currentToken.setNextToken(token));
         }
 
-        throw new Exception("unknown Token " + ch);
+        Token token = generateSymbol(line);
+        return tokenize(line.substring(token.getValue().length()), currentToken.setNextToken(token));
     }
 
     private Token generateNumber(String line, String number) {
@@ -48,5 +51,12 @@ public class Lexer {
         char ch = line.charAt(0);
         if (!Character.isDigit(ch)) return terminalToken;
         else return generateNumber(line.substring(1), number + ch);
+    }
+
+    private Token generateSymbol(String line) {
+        final var stream = Arrays.stream(line.split(""));
+        final var untilSpaceString = stream.takeWhile(str -> !str.isBlank()).collect(Collectors.joining());
+
+        return new Token(TokenKind.Symbol, untilSpaceString, null);
     }
 }
