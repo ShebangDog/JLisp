@@ -57,6 +57,6 @@ public class Lexer {
         final var stream = Arrays.stream(line.split(""));
         final var untilSpaceString = stream.takeWhile(str -> !str.isBlank()).collect(Collectors.joining());
 
-        return new Token(TokenKind.Symbol, untilSpaceString, null);
+        return new Token(TokenKind.Symbol, untilSpaceString.toUpperCase(), null);
     }
 }
