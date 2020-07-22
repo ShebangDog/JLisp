@@ -13,8 +13,6 @@ public class Lexer {
     }
 
     public Token tokenize(String line) {
-        System.out.println("tokenize " + line);
-
         Token token = new Token();
 
         tokenize(line, token);
