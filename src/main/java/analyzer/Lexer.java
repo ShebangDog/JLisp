@@ -7,9 +7,14 @@ import java.util.stream.Collectors;
 public class Lexer {
     private final java.util.List<Character> keywordList = List.of('(', ')', '\'', '\"', '.');
 
-    public static Lexer lexer = new Lexer();
+    public static final Lexer lexer = new Lexer();
 
-    public Token tokenize(String line) throws Exception {
+    private Lexer() {
+    }
+
+    public Token tokenize(String line) {
+        System.out.println("tokenize " + line);
+
         Token token = new Token();
 
         tokenize(line, token);
@@ -17,7 +22,7 @@ public class Lexer {
         return token;
     }
 
-    private Token tokenize(String line, Token currentToken) throws Exception {
+    private Token tokenize(String line, Token currentToken) {
         if (line.length() == 0) return currentToken;
 
         char ch = line.charAt(0);
@@ -55,7 +60,11 @@ public class Lexer {
 
     private Token generateSymbol(String line) {
         final var stream = Arrays.stream(line.split(""));
-        final var untilSpaceString = stream.takeWhile(str -> !str.isBlank()).collect(Collectors.joining());
+
+        final var untilSpaceString = stream.takeWhile((str) -> {
+            char ch = str.charAt(0);
+            return !Character.isWhitespace(ch) && !keywordList.contains(ch);
+        }).collect(Collectors.joining());
 
         return new Token(TokenKind.Symbol, untilSpaceString.toUpperCase(), null);
     }
