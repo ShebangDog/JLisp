@@ -17,7 +17,7 @@ public class Lexer {
 
         tokenize(line, token);
 
-        return token;
+        return token.getNextToken();
     }
 
     private Token tokenize(String line, Token currentToken) {
