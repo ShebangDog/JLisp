@@ -16,7 +16,8 @@ public abstract class Function extends Atom {
     public static void registerSystemFunctions() {
         final var list = java.util.List.of(
                 new Car(), new Cdr(), new Add(),
-                new Defun(), new If(), new Equal(), new Not());
+                new Defun(), new If(), new Equal(),
+                new Not(), new ConsFunction());
 
         list.forEach(lambda -> {
             final var symbol = Symbol.symbol(lambda.name);
@@ -29,16 +30,19 @@ public abstract class Function extends Atom {
         return "#<SYSTEM-FUNCTION " + this.getClass().getSimpleName() + ">";
     }
 
-//    static class ConsFunction extends Function {
-//        public ConsFunction() {
-//            super("cons".toUpperCase());
-//        }
-//
-//        @Override
-//        public T functionCall(List arguments) throws Exception {
-//
-//        }
-//    }
+    static class ConsFunction extends Function {
+        public ConsFunction() {
+            super("cons".toUpperCase());
+        }
+
+        @Override
+        public T functionCall(List arguments) throws Exception {
+            final var left = Evaluator.evaluator.eval(arguments.value());
+            final var right = Evaluator.evaluator.eval(arguments.next().value());
+
+            return new Cons(left, ((List) right));
+        }
+    }
 
     static class Not extends Function {
         public Not() {
