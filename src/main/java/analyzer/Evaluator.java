@@ -1,16 +1,16 @@
 package analyzer;
 
+import machine.StackMachine;
 import type.*;
 
 public class Evaluator {
-    private static final int maxStackSize = 65536;
-    private static T[] stack = new T[maxStackSize];
-    private static int stackP = 0;
 
     private Evaluator() {
     }
 
     public static Evaluator evaluator = new Evaluator();
+
+    private final StackMachine stackMachine = StackMachine.stackMachine;
 
     public T eval(T symbolExpression) throws Exception {
         if (symbolExpression instanceof Symbol) {
@@ -61,35 +61,33 @@ public class Evaluator {
     }
 
     private T bindEvalBody(Cons parameter, Cons body, Cons arguments) throws Exception {
-        int OldStackP = stackP;
-        while (true) {
-            T ret = eval(arguments.car);
-            stack[stackP++] = ret;
-            if (arguments.cdr == Nil.nil) break;
-            arguments = (Cons) arguments.cdr;
-        }
+        final var previousIndex = this.stackMachine.size();
 
-        Cons argList = parameter;
-        int sp = OldStackP;
-        while (true) {
-            Symbol sym = (Symbol) argList.car;
-            T swap = sym.value;
-            sym.value = stack[sp];
-            stack[sp++] = swap;
-            if (argList.cdr == Nil.nil) break;
-            argList = (Cons) argList.cdr;
-        }
+        arguments.forEach(argument -> {
+            try {
+                final T hold = eval(argument);
+                this.stackMachine.push(hold);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        parameter.forEachWithIndex(previousIndex, (index, param) -> {
+            final var symbol = (Symbol) param;
+
+            final var hold = symbol.value;
+
+            symbol.value = this.stackMachine.elementAt(index);
+            this.stackMachine.set(hold, index);
+        });
 
         T ret = evalBody(body);
+        parameter.forEachWithIndex(previousIndex, (index, param) -> {
+            final var symbol = ((Symbol) param);
+            symbol.value = this.stackMachine.elementAt(index);
+        });
 
-        argList = parameter;
-        stackP = OldStackP;
-        while (true) {
-            Symbol sym = (Symbol) argList.car;
-            sym.value = stack[OldStackP++];
-            if (argList.cdr == Nil.nil) break;
-            argList = (Cons) argList.cdr;
-        }
+        this.stackMachine.popUntil((size, t) -> size == previousIndex);
 
         return ret;
     }
