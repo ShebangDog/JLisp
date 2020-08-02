@@ -17,7 +17,7 @@ public abstract class Function extends Atom {
         final var list = java.util.List.of(
                 new Car(), new Cdr(), new Add(),
                 new Defun(), new If(), new Equal(),
-                new Not(), new ConsFunction());
+                new Not(), new ConsFunction(), new ValueEqual());
 
         list.forEach(lambda -> {
             final var symbol = Symbol.symbol(lambda.name);
@@ -104,6 +104,21 @@ public abstract class Function extends Atom {
             final var right = Evaluator.evaluator.eval(((Cons) cons.cdr).car);
 
             return Objects.equals(left, right) ? Symbol.symbolT : Nil.nil;
+        }
+    }
+
+    static class ValueEqual extends Function {
+        public ValueEqual() {
+            super("=");
+        }
+
+        @Override
+        public T functionCall(List arguments) throws Exception {
+            final var cons = ((Cons) arguments);
+            final var left = Evaluator.evaluator.eval(cons.car);
+            final var right = Evaluator.evaluator.eval(((Cons) cons.cdr).car);
+
+            return ((Integer) left).equalValue((Integer) right) ? Symbol.symbolT : Nil.nil;
         }
     }
 

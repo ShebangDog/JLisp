@@ -15,4 +15,8 @@ public class Integer extends Number {
     public String toString() {
         return "" + this.value;
     }
+
+    public boolean equalValue(Integer right) {
+        return this.value == right.value;
+    }
 }
