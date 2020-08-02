@@ -2,6 +2,8 @@ package type;
 
 import analyzer.Evaluator;
 
+import java.util.Objects;
+
 public abstract class Function extends Atom {
     private final String name;
 
@@ -12,7 +14,9 @@ public abstract class Function extends Atom {
     public abstract T functionCall(List arguments) throws Exception;
 
     public static void registerSystemFunctions() {
-        final var list = java.util.List.of(new Car(), new Cdr(), new Add(), new Defun());
+        final var list = java.util.List.of(
+                new Car(), new Cdr(), new Add(),
+                new Defun(), new If(), new Equal(), new Not());
 
         list.forEach(lambda -> {
             final var symbol = Symbol.symbol(lambda.name);
@@ -23,6 +27,31 @@ public abstract class Function extends Atom {
     @Override
     public String toString() {
         return "#<SYSTEM-FUNCTION " + this.getClass().getSimpleName() + ">";
+    }
+
+//    static class ConsFunction extends Function {
+//        public ConsFunction() {
+//            super("cons".toUpperCase());
+//        }
+//
+//        @Override
+//        public T functionCall(List arguments) throws Exception {
+//
+//        }
+//    }
+
+    static class Not extends Function {
+        public Not() {
+            super("not".toUpperCase());
+        }
+
+        @Override
+        public T functionCall(List arguments) throws Exception {
+            final var cons = ((Cons) arguments);
+            final var predicate = Evaluator.evaluator.eval(cons.car);
+
+            return Objects.equals(predicate, Symbol.symbolT) ? Nil.nil : Symbol.symbolT;
+        }
     }
 
     static class Car extends Function {
@@ -59,6 +88,39 @@ public abstract class Function extends Atom {
         }
     }
 
+    static class Equal extends Function {
+        public Equal() {
+            super("equal".toUpperCase());
+        }
+
+        @Override
+        public T functionCall(List arguments) throws Exception {
+            final var cons = ((Cons) arguments);
+            final var left = Evaluator.evaluator.eval(cons.car);
+            final var right = Evaluator.evaluator.eval(((Cons) cons.cdr).car);
+
+            return Objects.equals(left, right) ? Symbol.symbolT : Nil.nil;
+        }
+    }
+
+    static class If extends Function {
+        public If() {
+            super("if".toUpperCase());
+        }
+
+        @Override
+        public T functionCall(List arguments) throws Exception {
+            final var evaluator = Evaluator.evaluator;
+            final var cons = ((Cons) arguments);
+            final var predicate = cons.car;
+
+            final var forms = ((Cons) cons.cdr);
+            final var form1 = forms.car;
+            final var form2 = ((Cons) forms.cdr).car;
+
+            return evaluator.eval((evaluator.eval(predicate) == Symbol.symbolT) ? form1 : form2);
+        }
+    }
 
     static class Add extends Function {
         public Add() {
@@ -85,10 +147,10 @@ public abstract class Function extends Atom {
 
         @Override
         public T functionCall(List arguments) {
-            final var car = ((Cons)arguments).car;
-            final var args = ((Cons)arguments).cdr;
+            final var car = ((Cons) arguments).car;
+            final var args = ((Cons) arguments).cdr;
 
-            Symbol symbol = (Symbol)car;
+            Symbol symbol = (Symbol) car;
             symbol.function = new Cons(Symbol.symbol("LAMBDA"), (List) args);
 
             return symbol;

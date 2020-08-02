@@ -14,6 +14,21 @@ public class Cons extends List {
     }
 
     @Override
+    public T value() {
+        return this.car;
+    }
+
+    @Override
+    public List next() {
+        return (List) this.cdr;
+    }
+
+    @Override
+    public Boolean hasNext() {
+        return next() != Nil.nil;
+    }
+
+    @Override
     public String toString() {
         return makeString(this, "(");
     }
