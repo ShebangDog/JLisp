@@ -1,14 +1,12 @@
 package type;
 
 public class Integer extends Number {
-    public final int value;
-
     public Integer(int value) {
         this.value = value;
     }
 
     public T add(Integer right) {
-        return new Integer(this.value + right.value);
+        return new Integer((int) (this.value + right.value));
     }
 
     @Override
@@ -16,7 +14,7 @@ public class Integer extends Number {
         return "" + this.value;
     }
 
-    public boolean equalValue(Integer right) {
+    public boolean equalValue(Number right) {
         return this.value == right.value;
     }
 }

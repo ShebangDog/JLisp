@@ -1,4 +1,3 @@
 package type;
 
-public abstract class T {
-}
+public abstract class T { }

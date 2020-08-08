@@ -20,6 +20,6 @@ public class Nil extends List {
 
     @Override
     public String toString() {
-        return "type.Nil";
+        return "nil".toUpperCase();
     }
 }
