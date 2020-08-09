@@ -25,7 +25,7 @@ public class Cons extends List {
 
     @Override
     public Boolean hasNext() {
-        return next() != Nil.nil;
+        return next() != null;
     }
 
     @Override
