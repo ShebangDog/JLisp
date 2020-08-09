@@ -1,3 +1,3 @@
 package type;
 
-public abstract class T { }
+public interface T { }

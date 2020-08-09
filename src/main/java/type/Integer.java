@@ -2,7 +2,7 @@ package type;
 
 public class Integer extends Number {
     public Integer(int value) {
-        this.value = value;
+        super(value);
     }
 
     public T add(Integer right) {
@@ -11,7 +11,7 @@ public class Integer extends Number {
 
     @Override
     public String toString() {
-        return "" + (int) this.value;
+        return ((int) this.value) + "";
     }
 
     public boolean equalValue(Number right) {

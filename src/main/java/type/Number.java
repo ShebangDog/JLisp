@@ -1,5 +1,9 @@
 package type;
 
-public class Number extends Atom {
-    public double value;
+public abstract class Number implements Atom {
+    public final double value;
+
+    protected Number(double value) {
+        this.value = value;
+    }
 }

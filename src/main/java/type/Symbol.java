@@ -2,7 +2,7 @@ package type;
 
 import java.util.HashMap;
 
-public class Symbol extends Atom {
+public class Symbol implements Atom {
     public final String name;
     public T value;
     public T function;

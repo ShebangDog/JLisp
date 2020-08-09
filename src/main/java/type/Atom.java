@@ -1,4 +1,4 @@
 package type;
 
-public abstract class Atom extends T {
+public interface Atom extends T {
 }
