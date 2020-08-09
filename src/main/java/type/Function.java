@@ -8,6 +8,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public enum Function implements FunctionalInterface {
+    Quote("'") {
+        @Override
+        public T functionCall(List arguments) {
+            return ((Cons) arguments).car;
+        }
+    },
     Cons("cons") {
         @Override
         public T functionCall(List arguments) throws Exception {
@@ -17,7 +23,6 @@ public enum Function implements FunctionalInterface {
             return new Cons(left, ((List) right));
         }
     },
-
     Not("not") {
         @Override
         public T functionCall(List arguments) throws Exception {
@@ -27,7 +32,6 @@ public enum Function implements FunctionalInterface {
             return Objects.equals(predicate, Symbol.symbolT) ? Nil.nil : Symbol.symbolT;
         }
     },
-
     Car("car") {
         @Override
         public T functionCall(List arguments) throws Exception {
@@ -40,7 +44,6 @@ public enum Function implements FunctionalInterface {
             }
         }
     },
-
     Cdr("cdr") {
         @Override
         public T functionCall(List arguments) throws Exception {
@@ -53,7 +56,6 @@ public enum Function implements FunctionalInterface {
             }
         }
     },
-
     Equal("equal") {
         @Override
         public T functionCall(List arguments) throws Exception {
@@ -64,7 +66,6 @@ public enum Function implements FunctionalInterface {
             return Objects.equals(left, right) ? Symbol.symbolT : Nil.nil;
         }
     },
-
     ValueEqual("=") {
         @Override
         public T functionCall(List arguments) throws Exception {
@@ -75,7 +76,6 @@ public enum Function implements FunctionalInterface {
             return ((Integer) left).equalValue((Integer) right) ? Symbol.symbolT : Nil.nil;
         }
     },
-
     If("if") {
         @Override
         public T functionCall(List arguments) throws Exception {
@@ -90,7 +90,6 @@ public enum Function implements FunctionalInterface {
             return evaluator.eval((evaluator.eval(predicate) == Symbol.symbolT) ? form1 : form2);
         }
     },
-
     Add("+") {
         @Override
         public T functionCall(List arguments) throws Exception {
@@ -104,7 +103,6 @@ public enum Function implements FunctionalInterface {
             }
         }
     },
-
     Defun("defun") {
         @Override
         public T functionCall(List arguments) {
@@ -121,7 +119,6 @@ public enum Function implements FunctionalInterface {
     Function(String name) {
         this.name = name.toUpperCase();
     }
-
 
     public final String name;
 
