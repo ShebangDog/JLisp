@@ -31,6 +31,7 @@ public class JLispTester {
                 Pair.of("(equal 1 1)", "t"),
                 Pair.of("(equal (cons 1 nil) (cons 1 nil))", "t"),
                 Pair.of("(equal (cons 1 nil) '(1))", "t"),
+                Pair.of("(equal + +)", "t"),
 
                 Pair.of("(= 1 1)", "t"),
                 Pair.of("(= (+ 1 1) 2)", "t"),
