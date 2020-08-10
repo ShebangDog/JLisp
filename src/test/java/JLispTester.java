@@ -22,6 +22,11 @@ public class JLispTester {
 
                 Pair.of("(cons 1 nil)", "(1)"),
 
+                Pair.of("(+ 1 1.0)", "2.0"),
+                Pair.of("(- 1 1.0)", "0.0"),
+                Pair.of("(* 1 1.0)", "1.0"),
+                Pair.of("(/ 1 1.0)", "1.0"),
+
                 Pair.of("(equal 'a 'a)", "t"),
                 Pair.of("(equal 1 1)", "t"),
                 Pair.of("(equal (cons 1 nil) (cons 1 nil))", "t"),
@@ -33,6 +38,9 @@ public class JLispTester {
 
                 Pair.of("'()", "nil"),
                 Pair.of("'(1 . nil)", "(1)"),
+
+                Pair.of("0.0", "0.0"),
+                Pair.of("'(0.0)", "(0.0)"),
 
                 Pair.of("nil", "nil")
         );
@@ -49,7 +57,7 @@ public class JLispTester {
                 final var equals = Objects.equals(eval.toString(), expectedValue);
                 assert equals : input + " : expected " + expectedValue + " but got " + eval;
 
-                System.out.println("success" + " : " + eval);
+                System.out.println("success" + " : " + eval)    ;
             } catch (Exception e) {
                 e.printStackTrace();
             }

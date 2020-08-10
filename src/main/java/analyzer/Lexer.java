@@ -27,7 +27,7 @@ public class Lexer {
 
         if (Character.isSpaceChar(ch)) return tokenize(line.substring(1), currentToken);
 
-        if (Character.isDigit(ch) || ch == '-') {
+        if (isNumber(line)) {
             Token token = generateNumber(line.substring(1), Character.toString(ch));
 
             return tokenize(line.substring(token.getValue().length()), currentToken.setNextToken(token));
@@ -46,13 +46,10 @@ public class Lexer {
     private Token generateNumber(String line, String number) {
         Token terminalToken = new Token(TokenKind.Number, number, null);
 
-        if (0 < number.length() && number.charAt(0) == '0') return terminalToken;
-        if (0 < number.length() && number.startsWith("-0")) return terminalToken;
-
         if (line.length() == 0) return terminalToken;
 
         char ch = line.charAt(0);
-        if (!Character.isDigit(ch)) return terminalToken;
+        if (!Character.isDigit(ch) && ch != '.') return terminalToken;
         else return generateNumber(line.substring(1), number + ch);
     }
 
@@ -65,5 +62,11 @@ public class Lexer {
         }).collect(Collectors.joining());
 
         return new Token(TokenKind.Symbol, untilSpaceString.toUpperCase(), null);
+    }
+
+    private boolean isNumber(String line) {
+        final var ch = line.charAt(0);
+
+        return Character.isDigit(ch) || (ch == '-' && Character.isDigit(line.charAt(1)));
     }
 }

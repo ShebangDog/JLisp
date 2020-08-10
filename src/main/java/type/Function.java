@@ -14,6 +14,7 @@ public enum Function implements FunctionalInterface {
             return ((Cons) arguments).car;
         }
     },
+
     Cons("cons") {
         @Override
         public T functionCall(List arguments) throws Exception {
@@ -21,15 +22,6 @@ public enum Function implements FunctionalInterface {
             final var right = Evaluator.evaluator.eval(arguments.next().value());
 
             return new Cons(left, ((List) right));
-        }
-    },
-    Not("not") {
-        @Override
-        public T functionCall(List arguments) throws Exception {
-            final var cons = ((Cons) arguments);
-            final var predicate = Evaluator.evaluator.eval(cons.car);
-
-            return Objects.equals(predicate, Symbol.symbolT) ? Nil.nil : Symbol.symbolT;
         }
     },
     Car("car") {
@@ -56,6 +48,16 @@ public enum Function implements FunctionalInterface {
             }
         }
     },
+
+    Not("not") {
+        @Override
+        public T functionCall(List arguments) throws Exception {
+            final var cons = ((Cons) arguments);
+            final var predicate = Evaluator.evaluator.eval(cons.car);
+
+            return Objects.equals(predicate, Symbol.symbolT) ? Nil.nil : Symbol.symbolT;
+        }
+    },
     Equal("equal") {
         @Override
         public T functionCall(List arguments) throws Exception {
@@ -80,6 +82,7 @@ public enum Function implements FunctionalInterface {
             return ((Number) left).equalValue(((Number) right)) ? Symbol.symbolT : Nil.nil;
         }
     },
+
     If("if") {
         @Override
         public T functionCall(List arguments) throws Exception {
@@ -94,19 +97,60 @@ public enum Function implements FunctionalInterface {
             return evaluator.eval((evaluator.eval(predicate) == Symbol.symbolT) ? form1 : form2);
         }
     },
-    Add("+") {
+
+    Plus("+") {
         @Override
         public T functionCall(List arguments) throws Exception {
             if (!(arguments instanceof Cons)) throw new Exception("function cons3");
             else {
                 final var cons = (Cons) arguments;
-                final var first = (Integer) Evaluator.evaluator.eval(cons.car);
-                final var second = (Integer) Evaluator.evaluator.eval(((Cons) cons.cdr).car);
+                final var first = (Number) Evaluator.evaluator.eval(cons.car);
+                final var second = (Number) Evaluator.evaluator.eval(((Cons) cons.cdr).car);
 
-                return first.add(second);
+                return first.plus(second);
             }
         }
     },
+    Minus("-") {
+        @Override
+        public T functionCall(List arguments) throws Exception {
+            if (!(arguments instanceof Cons)) throw new Exception("function cons4");
+            else {
+                final var cons = (Cons) arguments;
+                final var first = (Number) Evaluator.evaluator.eval(cons.car);
+                final var second = (Number) Evaluator.evaluator.eval(((Cons) cons.cdr).car);
+
+                return first.minus(second);
+            }
+        }
+    },
+    Multiple("*") {
+        @Override
+        public T functionCall(List arguments) throws Exception {
+            if (!(arguments instanceof Cons)) throw new Exception("function cons3");
+            else {
+                final var cons = (Cons) arguments;
+                final var first = (Number) Evaluator.evaluator.eval(cons.car);
+                final var second = (Number) Evaluator.evaluator.eval(((Cons) cons.cdr).car);
+
+                return first.multiple(second);
+            }
+        }
+    },
+    Divide("/") {
+        @Override
+        public T functionCall(List arguments) throws Exception {
+            if (!(arguments instanceof Cons)) throw new Exception("function cons3");
+            else {
+                final var cons = (Cons) arguments;
+                final var first = (Number) Evaluator.evaluator.eval(cons.car);
+                final var second = (Number) Evaluator.evaluator.eval(((Cons) cons.cdr).car);
+
+                return first.divide(second);
+            }
+        }
+    },
+
     Defun("defun") {
         @Override
         public T functionCall(List arguments) {
