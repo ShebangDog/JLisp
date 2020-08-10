@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class Symbol implements Atom {
     public final String name;
-    public T value;
+    public T value = Nil.nil;
     public T function;
 
     private static final HashMap<String, Symbol> symbolTable = new HashMap<>();
