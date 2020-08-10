@@ -157,6 +157,18 @@ public enum Function implements FunctionalInterface {
         }
     },
 
+    Setq("setq") {
+        @Override
+        public T functionCall(List arguments) throws Exception {
+            final var cons = (Cons) arguments;
+
+            final var symbolId = (Symbol) cons.car;
+            symbolId.value = Evaluator.evaluator.eval(((Cons) cons.cdr).car);
+
+            return symbolId.value;
+        }
+    },
+
     Defun("defun") {
         @Override
         public T functionCall(List arguments) {
