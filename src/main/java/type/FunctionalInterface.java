@@ -1,5 +1,5 @@
 package type;
 
-public interface FunctionalInterface extends T {
+public interface FunctionalInterface extends Atom {
     T functionCall(List arguments) throws Exception;
 }
