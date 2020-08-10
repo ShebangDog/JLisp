@@ -10,11 +10,11 @@ import java.io.InputStreamReader;
 public class JLisp {
     public static void main(String[] args) {
         final var bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        Function.registerSystemFunctions();
+        Function.registerFunctions();
 
-        System.out.println("Welcome to SDLisp! (2017-4-4)");
+        System.out.println("Welcome to JLisp(based on SDLisp)! (2020-8-9)");
         System.out.println("> Copyright (C) GOMI Hiroshi 2017.");
-        System.out.println("> Type quit and hit Enter for leaving SDLisp.");
+        System.out.println("> Type quit and hit Enter for leaving JLisp.");
 
         while (true) {
             try {
@@ -29,7 +29,7 @@ public class JLisp {
 
                 System.out.println(ret);
             } catch (Exception e) {
-                System.out.println(e);
+                e.printStackTrace();
             }
         }
     }

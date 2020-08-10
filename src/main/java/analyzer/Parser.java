@@ -49,9 +49,17 @@ public class Parser {
         }
     }
 
-    private T quote() {
-        this.token = this.token.getNextToken();
-        return Nil.nil;
+    private T quote() throws Exception {
+        final var top = new Cons();
+        var cons = top;
+
+        cons.car = Symbol.symbol("'");
+        cons.cdr = new Cons();
+
+        cons = (Cons)cons.cdr;
+        cons.car = parse();
+
+        return top;
     }
 
     private T singedNumber() {

@@ -2,12 +2,12 @@ package type;
 
 import java.util.HashMap;
 
-public class Symbol extends Atom {
+public class Symbol implements Atom {
     public final String name;
     public T value;
     public T function;
 
-    private static HashMap<String, Symbol> symbolTable = new HashMap<>();
+    private static final HashMap<String, Symbol> symbolTable = new HashMap<>();
     public static Symbol symbolT = Symbol.symbol("T");
     public static Symbol symbolQuit = Symbol.symbol("QUIT");
 

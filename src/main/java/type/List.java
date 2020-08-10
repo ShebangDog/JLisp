@@ -3,7 +3,7 @@ package type;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-public abstract class List extends T {
+public abstract class List implements T {
     public abstract T value();
     public abstract List next();
 
