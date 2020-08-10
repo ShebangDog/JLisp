@@ -73,7 +73,11 @@ public enum Function implements FunctionalInterface {
             final var left = Evaluator.evaluator.eval(cons.car);
             final var right = Evaluator.evaluator.eval(((Cons) cons.cdr).car);
 
-            return ((Integer) left).equalValue((Integer) right) ? Symbol.symbolT : Nil.nil;
+            final var isNotNumbers = !java.util.List.of(left, right).stream().allMatch(elem -> elem instanceof Number);
+
+            if (isNotNumbers) return Nil.nil;
+
+            return ((Number) left).equalValue(((Number) right)) ? Symbol.symbolT : Nil.nil;
         }
     },
     If("if") {
@@ -136,4 +140,5 @@ public enum Function implements FunctionalInterface {
             symbol.function = function;
         });
     }
+
 }

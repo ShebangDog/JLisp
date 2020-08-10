@@ -13,8 +13,4 @@ public class Integer extends Number {
     public String toString() {
         return ((int) this.value) + "";
     }
-
-    public boolean equalValue(Number right) {
-        return this.value == right.value;
-    }
 }
