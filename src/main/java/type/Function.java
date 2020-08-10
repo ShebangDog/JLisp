@@ -15,6 +15,12 @@ public enum Function implements FunctionalInterface {
         }
     },
 
+    ListFunction("list") {
+        @Override
+        public T functionCall(List arguments) {
+            return arguments;
+        }
+    },
     Cons("cons") {
         @Override
         public T functionCall(List arguments) throws Exception {
