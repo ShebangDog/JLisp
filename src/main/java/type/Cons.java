@@ -39,11 +39,8 @@ public class Cons extends List {
             final var cons = (Cons) t;
             final var carString = cons.car.toString();
 
-            if (!(cons.car instanceof Atom)) return makeString(cons.cdr, string + " ");
-            else {
-                final var postFix = (cons.cdr != Nil.nil ? " " : "");
-                return makeString(cons.cdr, string + carString + postFix);
-            }
+            final var postFix = (cons.cdr != Nil.nil ? " " : "");
+            return makeString(cons.cdr, string + carString + postFix);
         }
     }
 }

@@ -31,6 +31,9 @@ public class JLispTester {
                 Pair.of("(= (+ 1 1) 2)", "t"),
                 Pair.of("(= 'a 'a)", "nil"),
 
+                Pair.of("'()", "nil"),
+                Pair.of("'(1 . nil)", "(1)"),
+
                 Pair.of("nil", "nil")
         );
 
