@@ -46,13 +46,10 @@ public class Lexer {
     private Token generateNumber(String line, String number) {
         Token terminalToken = new Token(TokenKind.Number, number, null);
 
-        if (0 < number.length() && number.charAt(0) == '0') return terminalToken;
-        if (0 < number.length() && number.startsWith("-0")) return terminalToken;
-
         if (line.length() == 0) return terminalToken;
 
         char ch = line.charAt(0);
-        if (!Character.isDigit(ch)) return terminalToken;
+        if (!Character.isDigit(ch) && ch != '.') return terminalToken;
         else return generateNumber(line.substring(1), number + ch);
     }
 

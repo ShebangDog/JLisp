@@ -1,6 +1,8 @@
 package analyzer;
 
+import type.Float;
 import type.Integer;
+import type.Number;
 import type.*;
 
 import java.util.Objects;
@@ -56,15 +58,23 @@ public class Parser {
         cons.car = Symbol.symbol("'");
         cons.cdr = new Cons();
 
-        cons = (Cons)cons.cdr;
+        cons = (Cons) cons.cdr;
         cons.car = parse();
 
         return top;
     }
 
     private T singedNumber() {
-        final var value = java.lang.Integer.parseInt(this.token.getValue());
-        final var result = new Integer(value);
+        final var tokenValue = this.token.getValue();
+        Number result;
+
+        try {
+            final var number = java.lang.Integer.parseInt(tokenValue);
+            result = new Integer(number);
+        } catch (NumberFormatException e) {
+            final var number = java.lang.Float.parseFloat(tokenValue);
+            result = new Float(number);
+        }
 
         this.token = this.token.getNextToken();
 
