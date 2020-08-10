@@ -27,7 +27,7 @@ public class Lexer {
 
         if (Character.isSpaceChar(ch)) return tokenize(line.substring(1), currentToken);
 
-        if (Character.isDigit(ch) || ch == '-') {
+        if (isNumber(line)) {
             Token token = generateNumber(line.substring(1), Character.toString(ch));
 
             return tokenize(line.substring(token.getValue().length()), currentToken.setNextToken(token));
@@ -62,5 +62,11 @@ public class Lexer {
         }).collect(Collectors.joining());
 
         return new Token(TokenKind.Symbol, untilSpaceString.toUpperCase(), null);
+    }
+
+    private boolean isNumber(String line) {
+        final var ch = line.charAt(0);
+
+        return Character.isDigit(ch) || (ch == '-' && Character.isDigit(line.charAt(1)));
     }
 }
