@@ -63,7 +63,7 @@ public enum Function implements FunctionalInterface {
             final var left = Evaluator.evaluator.eval(cons.car);
             final var right = Evaluator.evaluator.eval(((Cons) cons.cdr).car);
 
-            return Objects.equals(left, right) ? Symbol.symbolT : Nil.nil;
+            return Objects.equals(left.toString(), right.toString()) ? Symbol.symbolT : Nil.nil;
         }
     },
     ValueEqual("=") {
