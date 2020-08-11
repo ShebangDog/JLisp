@@ -31,7 +31,7 @@ public class Parser {
     }
 
     private T list() throws Exception {
-        if (token == null) throw new Exception("null");
+        if (token == null) throw new InCompleteFormException();
         if (consume(")")) return Nil.nil;
 
         final var topCons = new Cons();
@@ -90,7 +90,9 @@ public class Parser {
         return result;
     }
 
-    private boolean consume(String sign) {
+    private boolean consume(String sign) throws InCompleteFormException{
+        if (this.token.getValue() == null) throw new InCompleteFormException();
+
         if (!Objects.equals(sign, this.token.getValue())) return false;
 
         this.token = this.token.getNextToken();

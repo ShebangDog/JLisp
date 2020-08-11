@@ -25,7 +25,7 @@ public class Lexer {
 
         char ch = line.charAt(0);
 
-        if (Character.isSpaceChar(ch)) return tokenize(line.substring(1), currentToken);
+        if (Character.isWhitespace(ch)) return tokenize(line.substring(1), currentToken);
 
         if (isNumber(line)) {
             Token token = generateNumber(line.substring(1), Character.toString(ch));
