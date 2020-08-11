@@ -43,6 +43,8 @@ public class JLispTester {
                 Pair.of("0.0", "0.0"),
                 Pair.of("'(0.0)", "(0.0)"),
 
+                Pair.of("(setq x\n1)", "1"),
+
                 Pair.of("nil", "nil")
         );
 
